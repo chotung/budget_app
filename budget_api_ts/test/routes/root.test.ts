@@ -7,5 +7,6 @@ test("default root route", async (t) => {
   const res = await app.inject({
     url: "/",
   })
-  t.same(JSON.parse(res.payload), { root: true })
+  t.same(res.payload, "home screen")
+  // t.same(JSON.parse(res.payload), "homescreen")
 })

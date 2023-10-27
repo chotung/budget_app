@@ -2,15 +2,21 @@ import { FastifyPluginAsync } from "fastify"
 
 const root: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get("/", async function (request, reply) {
-    // Poll the database for initial screens
-    // show budget limit
-    // show how much you spent already $99/1000
-    // what you spent it on
+    // should check if logged in
     return "home screen"
   })
 }
 
 export default root
+
+// This is more for FE than backend route
+// Poll the database for initial screens
+// show budget limit
+// show how much you spent already $99/1000
+// what you spent it on
+
+
+
 
 /**
  * User {

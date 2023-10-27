@@ -1,16 +1,24 @@
 import { join } from "path"
 import AutoLoad, { AutoloadPluginOptions } from "@fastify/autoload"
 import { FastifyPluginAsync, FastifyServerOptions } from "fastify"
+import { config } from "dotenv"
 
-export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {}
+config()
+
+export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> { }
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {}
 
 const app: FastifyPluginAsync<AppOptions> = async (fastify, opts): Promise<void> => {
   // Place here your custom code!
+  const isProduction = process.env.NODE_ENV === 'production';
+  fastify.register(require('@fastify/postgres'), {
+    connectionString: isProduction
+      ? process.env.DATABASE_URL
+      : `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:5432/${process.env.DB_NAME}`
+  })
 
   // Do not touch the following lines
-
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application
